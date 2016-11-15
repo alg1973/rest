@@ -1,0 +1,47 @@
+<table>
+{% if restaraunt %}
+        <tr> 
+        <td><a href="{% url 'menu' restaraunt.id %}">{{ restaraunt.name }}</a>
+	</td>  
+	</tr>
+        <tr> 
+        <td> {{ restaraunt.address }} 
+	</td>  
+	</tr>
+        <tr> 
+        <td><hr/>
+	</td>  
+	</tr>
+{% else %}
+    <tr><td><p>No such restrant is available.</p></td></tr>
+{% endif %}
+</table>
+<table>
+{% if menu_list %}
+    
+    {% for dish in menu_list %}
+        <tr> 
+        <td>{{ dish.name }}
+	</td>  
+	</tr>
+        <tr> 
+        <td> {{ dish.description }} 
+	</td>  
+	</tr>  
+        <tr> 
+	<td> Вес: </td>  
+        <td> {{ dish.weight}} 
+	</td>  
+	<td> Цена: </td>  
+        <td> {{ dish.price}} 
+	</td>  
+	</tr>  
+        <tr>
+        <td><hr/>
+	</td>
+	</tr>
+    {% endfor %}
+{% else %}
+    <tr><td><p>This restraunt don't have meal.</p></td></tr>
+{% endif %}
+</table>

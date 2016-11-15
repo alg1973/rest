@@ -1,0 +1,21 @@
+<table>
+{% if restaraunts_list %}
+    
+    {% for restaraunt in restaraunts_list %}
+        <tr> 
+        <td><a href="{% url 'menu' restaraunt.id %}">{{ restaraunt.name }}</a>
+	</td>  
+	</tr>
+        <tr> 
+        <td> {{ restaraunt.address }} 
+	</td>  
+	</tr>
+        <tr> 
+        <td><hr/>
+	</td>  
+	</tr>
+    {% endfor %}
+{% else %}
+    <tr><td><p>No polls are available.</p></td></tr>
+{% endif %}
+</table>
