@@ -2,16 +2,16 @@ from __future__ import print_function
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
+from django.db.models import Count
 import sys
 
 
 from .models import Restaraunt
 
 def show (request):
-    restaraunts_list = ()
-    if 'q' in request.GET: #sql enject
-        restataunts_list = Restaraunt.objects.filter(dish__name__icontains=request.GET['q'])
-        print("q='%s' query='%s'" % (request.GET['q'],restataunts_list.query), file=sys.stderr)
+    if 'q' in request.GET: #sql inject
+        restaraunts_list = Restaraunt.objects.filter(
+            dish__name__icontains=request.GET['q']).annotate(meal=Count('dish'))
     else:
         restaraunts_list = Restaraunt.objects.all()
     template = loader.get_template('market/restaraunts.html')
