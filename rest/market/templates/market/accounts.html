@@ -1,0 +1,35 @@
+{% if restaraunt %}
+<table>
+        <tr> 
+        <td>{{ restaraunt.name }}</a>
+	</td>  
+	</tr>
+        <tr> 
+        <td> {{ restaraunt.address }} 
+	</td>  
+	</tr>
+        <tr> 
+        <td> {{ restaraunt.latlng }} 
+	</td>  
+	</tr>
+        <tr> 
+        <td><hr/>
+	</td>  
+	</tr>
+</table>
+{% else %}
+<h1> Restraunt creation page</h1>
+<form action="{% url 'account' %}">
+<p>
+Name: <input type="text" name="name" size=15 value="">
+<p>
+lat: <input type="text" name="lat" size=10 value=""> lng: 
+<input type="text" name="lng" size=10 value="">
+<p>
+<textarea name="address" cols=20 rows=2>
+Input restraunt address here.
+</textarea>
+<p>
+<button>Send</button>
+</form>
+{% endif %}

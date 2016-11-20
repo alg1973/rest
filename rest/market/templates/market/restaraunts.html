@@ -1,8 +1,8 @@
 <h1> Рестораны рядом</h1>
 <hr><br/>
 <form action="{% url 'index' %}">
-<input type="text" name=q size=15 value="Пицца">
-</form
+<input type="text" name=q size=15 value="">
+</form>
 <table>
 {% if restaraunts_list %}
     
@@ -21,6 +21,6 @@
 	</tr>
     {% endfor %}
 {% else %}
-    <tr><td><p>No polls are available.</p></td></tr>
+    <tr><td><p>No restaraunts are available.</p></td></tr>
 {% endif %}
 </table>
