@@ -12,6 +12,10 @@
         <td> {{ restaraunt.latlng }} 
 	</td>  
 	</tr>
+        <tr>  
+        <td> {{ restaraunt.location_hash }} 
+	</td>  
+	</tr>
         <tr> 
         <td><hr/>
 	</td>  
@@ -30,6 +34,14 @@ lat: <input type="text" name="lat" size=10 value=""> lng:
 Input restraunt address here.
 </textarea>
 <p>
+Start time: <input type="text" name="start" size=5 value="09:00"><br/>
+End time: <input type="text" name="end" size=5 value="23:00"><br/>
+<p>
+Mimimum order: <input type="text" name="morder" size=10 value="0.0"><br/>
+Delivery price: <input type="text" name="dprice" size=10 value="0.0">
+<p>
+
+
 <button>Send</button>
 </form>
 {% endif %}
