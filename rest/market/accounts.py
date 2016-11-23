@@ -5,6 +5,7 @@ from django.template import loader
 from django.db.models import Count
 import sys
 import geocoder
+import s2
 
 
 from .models import Restaraunt
@@ -30,6 +31,12 @@ def edit_restraunt(request,rest_id):
         restaraunt['address']=geo.address
 	restaraunt['latlng']=geo.latlng
 	restaraunt['name']=request.GET['name']
+        latlng = s2.S2LatLng.FromDegrees(float(request.GET.has_key('lat')), 
+                                        float(request.GET.has_key('lng')))
+        cell = s2.S2CellId.FromLatLng(latlng).parent(15)
+        print (cell.level(),sys.stderr) 
+        print (cell.id(),sys.stderr)
+        restaraunt['location_hash']=cell.ToToken()
     else:
 	print (request.GET,sys.stderr)
 	restaraunt['name']='Error'
