@@ -3,9 +3,13 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
 from django.db.models import Count
+
 import sys
 import geocoder
 import s2
+import decimal
+import time
+from datetime import datetime
 
 
 from .models import Restaraunt
@@ -18,7 +22,7 @@ def validate_time(str):
 
 def show (request,rest_id="0"):
     if 'name' in request.GET:
-	return edit_restraunt(request,rest_id)
+	return edit_restaraunt(request,rest_id)
     restaraunt=()
     if int(rest_id): 
         restaraunt = Restaraunt.objects.get(pk=rest_id)
@@ -28,29 +32,42 @@ def show (request,rest_id="0"):
     }
     return HttpResponse(template.render(context, request))
 
-def edit_restraunt(request,rest_id):
+
+def validate_tel(tel):
+    return tel
+
+def validate_time(t):
+    return datetime.strptime(t,"%H:%M")
+
+def address2latlng(address):
+    # yandex geocoder lang='ru-RU', google geocoder language='ru'
+    geo=geocoder.yandex(address,lang='ru')
+    return dict([('lat',decimal.Decimal(geo.lat)),('lng',decimal.Decimal(geo.lng))])
+
+
+def edit_restaraunt(request,rest_id):
     restaraunt={}
     if request.GET.has_key('name') and request.GET.has_key('address'):
 
         restaraunt['name']=request.GET['name']
         restaraunt['address']=request.GET['address']
 
-        r=Restraraunt(name=restaraunt['name'],
+        r=Restaraunt(name=restaraunt['name'],
                       address=restaraunt['address'])
-# yandex geocoder lang='ru-RU', google geocoder language='ru'
-	geo=geocoder.yandex(request.GET['address'],lang='ru')
-        
-        r.location_lat=geo.lat
-        r.location_lng=geo.lng
-	restaraunt['location_lat']=geo.lat
-	restaraunt['location_lng']=geo.lng
 
-        latlng = s2.S2LatLng.FromDegrees(float(geo.lat), 
-                                         float(geo.lng))
+	g=address2latlng(restaraunt['address'])
+        
+        r.location_lat=g['lat']
+        r.location_lng=g['lng']
+	restaraunt['location_lat']=float(g['lat'])
+	restaraunt['location_lng']=float(g['lng'])
+
+        latlng = s2.S2LatLng.FromDegrees(float(g['lat']), 
+                                         float(g['lng']))
         cell = s2.S2CellId.FromLatLng(latlng).parent(14)
 
-        r.location_hash=cell.id
-        restaraunt['location_hash']=cell.id
+        r.location_cell=cell.id()
+        restaraunt['location_cell']=cell.id()
 
         if request.GET.has_key('start'):
             r.start_time=validate_time(request.GET['start'])
@@ -61,11 +78,17 @@ def edit_restraunt(request,rest_id):
             restaraunt['end_time']=r.end_time
          
         if request.GET.has_key('morder'):
-            r.minumum_order=request.GET['morder']
+            r.minimum_order=decimal.Decimal(request.GET['morder'])
             restaraunt['minimum_order']=request.GET['morder']
+
         if request.GET.has_key('dprice'):
-            r.delivery_price=request.GET['delivery_price']
-            restaraunt['delivery_price']=request.GET['delivery_price']
+            r.delivery_price=decimal.Decimal(request.GET['dprice'])
+            restaraunt['delivery_price']=request.GET['dprice']
+        if request.GET.has_key('tel'):
+            r.tel=validate_tel(request.GET['tel'])
+            restaraunt['tel']=r.tel
+  
+        r.save()
     else:
 	print (request.GET,sys.stderr)
 	restaraunt['name']='Error'

@@ -13,7 +13,7 @@
 	</td>  
 	</tr>
         <tr>  
-        <td> {{ restaraunt.location_hash }} 
+        <td> {{ restaraunt.location_cell }} 
 	</td>  
 	</tr>
         <tr> 
@@ -22,7 +22,7 @@
 	</tr>
 </table>
 {% else %}
-<h1> Restraunt creation page</h1>
+<h1> Restaraunt creation page</h1>
 <form action="{% url 'account' %}">
 <p>
 Name: <input type="text" name="name" size=15 value="">
@@ -30,8 +30,7 @@ Name: <input type="text" name="name" size=15 value="">
 lat: <input type="text" name="lat" size=10 value=""> lng: 
 <input type="text" name="lng" size=10 value="">
 <p>
-<textarea name="address" cols=20 rows=2>
-Input restraunt address here.
+<textarea name="address" cols=20 rows=3>
 </textarea>
 <p>
 Start time: <input type="text" name="start" size=5 value="09:00"><br/>
@@ -40,7 +39,7 @@ End time: <input type="text" name="end" size=5 value="23:00"><br/>
 Mimimum order: <input type="text" name="morder" size=10 value="0.0"><br/>
 Delivery price: <input type="text" name="dprice" size=10 value="0.0">
 <p>
-
+Tel <input type="text" name="tel" size=11 value="">
 
 <button>Send</button>
 </form>
