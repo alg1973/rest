@@ -16,22 +16,10 @@ from .models import Restaraunt
 from .models import Dish
 
 
-def validate_time(str):
-    return str
 
 
 def show (request,rest_id="0"):
-    if 'name' in request.GET:
-	return edit_restaraunt(request,rest_id)
-    restaraunt=()
-    if int(rest_id): 
-        restaraunt = Restaraunt.objects.get(pk=rest_id)
-    template = loader.get_template('market/accounts.html')
-    context = {
-        'restaraunt': restaraunt,
-    }
-    return HttpResponse(template.render(context, request))
-
+    return edit_restaraunt(request,rest_id)
 
 def validate_tel(tel):
     return tel
@@ -46,56 +34,47 @@ def address2latlng(address):
 
 
 def edit_restaraunt(request,rest_id):
-    restaraunt={}
-    if request.GET.has_key('name') and request.GET.has_key('address'):
+    restaraunt_db=() # db record
 
-        restaraunt['name']=request.GET['name']
-        restaraunt['address']=request.GET['address']
+    if int(rest_id): #edit 
+        restaraunt_db = Restaraunt.objects.get(pk=rest_id)
 
-        r=Restaraunt(name=restaraunt['name'],
-                      address=restaraunt['address'])
+    elif request.GET.has_key('name') and request.GET.has_key('address'): #create new one 
 
-	g=address2latlng(restaraunt['address'])
+        restaraunt_db=Restaraunt(name=request.GET['name'],
+                      address=request.GET['address'])
+
+	g=address2latlng(restaraunt_db.address)
         
-        r.location_lat=g['lat']
-        r.location_lng=g['lng']
-	restaraunt['location_lat']=float(g['lat'])
-	restaraunt['location_lng']=float(g['lng'])
+        restaraunt_db.location_lat=g['lat']
+        restaraunt_db.location_lng=g['lng']
 
         latlng = s2.S2LatLng.FromDegrees(float(g['lat']), 
                                          float(g['lng']))
         cell = s2.S2CellId.FromLatLng(latlng).parent(14)
 
-        r.location_cell=cell.id()
-        restaraunt['location_cell']=cell.id()
+        restaraunt_db.location_cell=cell.id()
+        
+        restaraunt_db.start_time=validate_time(request.GET.get('start',default="09:00"))
+        restaraunt_db.end_time=validate_time(request.GET.get('end',default="23:00"))
+        restaraunt_db.minimum_order=decimal.Decimal(request.GET.get('morder',default="0.0"))
+        restaraunt_db.delivery_price=decimal.Decimal(request.GET.get('dprice',default="0.0"))
 
-        if request.GET.has_key('start'):
-            r.start_time=validate_time(request.GET['start'])
-            restaraunt['start_time']=r.start_time
-
-        if request.GET.has_key('end'):
-            r.end_time=validate_time(request.GET['end'])
-            restaraunt['end_time']=r.end_time
-         
-        if request.GET.has_key('morder'):
-            r.minimum_order=decimal.Decimal(request.GET['morder'])
-            restaraunt['minimum_order']=request.GET['morder']
-
-        if request.GET.has_key('dprice'):
-            r.delivery_price=decimal.Decimal(request.GET['dprice'])
-            restaraunt['delivery_price']=request.GET['dprice']
         if request.GET.has_key('tel'):
-            r.tel=validate_tel(request.GET['tel'])
-            restaraunt['tel']=r.tel
+            restaraunt_db.tel=validate_tel(request.GET['tel'])
   
-        r.save()
-    else:
-	print (request.GET,sys.stderr)
-	restaraunt['name']='Error'
+        restaraunt_db.save()
+    else: # default 
+        restaraunt_db={ 'start_time' : datetime.strptime("09:00","%H:%M"),
+                        'end_time' : datetime.strptime("23:00","%H:%M"),
+                        'minimum_order' : "0.0",
+                        'delivery_price' : "0.0" }
+ 
+   
 
     template = loader.get_template('market/accounts.html')
     context = {
-        	'restaraunt': restaraunt,
+        	'restaraunt': restaraunt_db,
     }
     return HttpResponse(template.render(context, request))
 	
