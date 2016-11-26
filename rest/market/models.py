@@ -8,8 +8,8 @@ from django.utils.encoding import python_2_unicode_compatible
 class Restaraunt(models.Model):
 #   id = models.IntegerField(primary_key=True)
     type = models.IntegerField(default=0) #0 - unknown, pizza, italian, chinise 
-    name = models.CharField(max_length=1024)
-    location_cell = models.BigIntegerField() #s2 cell level 14
+    name = models.CharField(max_length=1024,db_index=True)
+    location_cell = models.BigIntegerField(db_index=True) #s2 cell level 14
     location_lat =   models.DecimalField(max_digits=10, decimal_places=6)
     location_lng = models.DecimalField(max_digits=10, decimal_places=6)
     address = models.CharField(max_length=1024)
@@ -24,6 +24,9 @@ class Restaraunt(models.Model):
     tel = models.CharField(max_length=15)
     def __unicode__(self):
         return u"%s" % self.name
+    class Meta:
+        unique_together = (("name","address"),)
+    
     #money and law fields here
 
 #@python_2_unicode_compatible
@@ -59,10 +62,6 @@ class Dish_type(models.Model):
 #   id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=256)
 
-    
-    
-    
-    
-    
+
     
     
