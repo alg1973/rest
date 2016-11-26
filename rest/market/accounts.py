@@ -35,9 +35,11 @@ def address2latlng(address):
 
 def edit_restaraunt(request,rest_id):
     restaraunt_db=() # db record
+    restaraunt_attr={}
 
     if int(rest_id): #edit 
         restaraunt_db = Restaraunt.objects.get(pk=rest_id)
+        restaraunt_attr['edit_id']=rest_id
 
     elif request.GET.has_key('name') and request.GET.has_key('address'): #create new one 
 
