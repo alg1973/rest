@@ -8,6 +8,7 @@ from django.db import connection
 import sys
 import geocoder
 import s2
+import geosort
 import decimal
 import time
 from datetime import datetime
@@ -28,24 +29,16 @@ def validate_tel(tel):
 def validate_time(t):
     return datetime.strptime(t,"%H:%M")
 
-def address2latlng(address):
-    # yandex geocoder lang='ru-RU', google geocoder language='ru'
-    geo=geocoder.yandex(address,lang='ru')
-    return dict([('lat',decimal.Decimal(geo.lat)),('lng',decimal.Decimal(geo.lng))])
+
 
 def set_address_s2cell(db_rec,address):
     db_rec.address=address
-    g=address2latlng(address)
+    g=geosort.address2latlng(address)
     
-    db_rec.location_lat=g['lat']
-    db_rec.location_lng=g['lng']
+    db_rec.location_lat=decimal.Decimal(g['lat'])
+    db_rec.location_lng=decimal.Decimal(g['lng'])
     
-    latlng = s2.S2LatLng.FromDegrees(float(g['lat']), 
-                                     float(g['lng']))
-
-    cell = s2.S2CellId.FromLatLng(latlng).parent(14) #14 level - 200-400 meters radius
-    
-    db_rec.location_cell=cell.id()
+    db_rec.location_cell=geosort.latlng2sell(g)
 
 
 def show_result(request, restaraunt_db, restaraunt_attr):
