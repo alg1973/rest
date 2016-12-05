@@ -39,11 +39,11 @@ def get_cells_of_region(lat,lng):
 def address2latlng(address):
     # yandex geocoder lang='ru-RU', google geocoder language='ru'
     geo=geocoder.yandex(address,lang='ru')
-    return dict([('lat',double(geo.lat)),('lng',double(geo.lng))])
+    return dict([('lat',float(geo.lat)),('lng',float(geo.lng))])
 
 def latlng2sell(g):
     latlng = s2.S2LatLng.FromDegrees(g['lat'],g['lng'])
-    cell = s2.S2CellId.FromLatLng(latlng).parent(geosort.BASE_LEVEL)
+    cell = s2.S2CellId.FromLatLng(latlng).parent(BASE_LEVEL)
     return cell.id()
  
 def addr2cell(addr):

@@ -1,8 +1,12 @@
 <h1> Рестораны рядом</h1>
 <hr><br/>
 <form action="{% url 'index' %}">
-<input type="text" name=q size=15 value="">
+Введите блюдо: <input type="text" name=q size=30 value=""><br/>
+Введите адрес: <input type="text" name=g size=30 value=""><br/>
+<p>
+<button>Go!</button>
 </form>
+<p>
 <table>
 {% if restaraunts_list %}
     

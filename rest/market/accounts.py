@@ -67,7 +67,8 @@ def edit_restaraunt(request,rest_id):
 
         if  request.GET.has_key('name'):
             restaraunt_db.name = request.GET['name']
-        if  request.GET.has_key('address'): #we can change lat-lng and cell only from address
+#we can change lat-lng and cell only from address
+        if  request.GET.has_key('address'): 
             set_address_s2cell(restaraunt_db,request.GET['address'])
         if request.GET.has_key('start'):
             restaraunt_db.start_time=validate_time(request.GET['start'])

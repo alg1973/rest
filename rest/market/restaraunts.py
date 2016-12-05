@@ -19,8 +19,8 @@ def show (request):
         restaraunts_list = Restaraunt.objects.filter(
             dish__name__icontains=request.GET['q']).annotate(meal=Count('dish'))
     elif 'g' in request.GET:
-        cellid=geo2cell(request.GET['g'])
-        restaraunts_list = get_restaraunts_near_cell(cellid)
+        point=address2latlng(request.GET['g'])
+        restaraunts_list = get_restaraunts_near_latlng(g['lat'],g['lng'])
     else:
         restaraunts_list = Restaraunt.objects.all()
     template = loader.get_template('market/restaraunts.html')
@@ -29,3 +29,6 @@ def show (request):
     }
     return HttpResponse(template.render(context, request))
 
+def get_restaraunts_near_latlng(lat,lng):
+    cell_list =  get_cells_of_region(lat,lng)
+    return Restaraunt.objects.filter(location_cell__in=cell_list)
