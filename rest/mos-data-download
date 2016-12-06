@@ -1,0 +1,1 @@
+wget -q -O - 'http://api.data.mos.ru/v1/datasets/1903/rows?$top=100&$skip=1&api_key=61bfd9a72514f5014ce64389fe8fb96c'
