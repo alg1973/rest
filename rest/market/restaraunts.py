@@ -7,7 +7,7 @@ import sys
 import geosort
 
 
-from .models import Restaraunt
+from .models import Restaraunt, Diner
 
 
 
@@ -15,6 +15,17 @@ from .models import Restaraunt
 
 
 def show (request):
+    auth_list= {'login_form': 1}
+    if 'market_id' in request.session:
+        try: 
+            usr = Diner.objects.get(pk=request.session['market_id'])
+            auth_list['user']=usr.id
+            auth_list['login_form']=0
+        except Diner.DoesNotExist:
+        #invalid id in sessions
+            del request.session['market_id']
+    
+        
     if 'q' in request.GET: #sql inject
         restaraunts_list = Restaraunt.objects.filter(
             dish__name__icontains=request.GET['q']).annotate(meal=Count('dish'))
@@ -25,6 +36,7 @@ def show (request):
         restaraunts_list = Restaraunt.objects.all()
     template = loader.get_template('market/restaraunts.html')
     context = {
+        'auth_list': auth_list,
         'restaraunts_list': restaraunts_list,
     }
     return HttpResponse(template.render(context, request))

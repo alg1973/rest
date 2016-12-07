@@ -85,10 +85,14 @@ def edit_restaraunt(request,rest_id):
         set_address_s2cell(restaraunt_db,request.GET['address'])
 
         
-        restaraunt_db.start_time=validate_time(request.GET.get('start',default="09:00"))
-        restaraunt_db.end_time=validate_time(request.GET.get('end',default="23:00"))
-        restaraunt_db.minimum_order=decimal.Decimal(request.GET.get('morder',default="0.0"))
-        restaraunt_db.delivery_price=decimal.Decimal(request.GET.get('dprice',default="0.0"))
+        restaraunt_db.start_time=validate_time(request.GET.get('start',
+                                                               default="09:00"))
+        restaraunt_db.end_time=validate_time(request.GET.get('end',
+                                                             default="23:00"))
+        restaraunt_db.minimum_order=decimal.Decimal(request.GET.get('morder',
+                                                                    default="0.0"))
+        restaraunt_db.delivery_price=decimal.Decimal(request.GET.get('dprice',
+                                                                     default="0.0"))
 
     else: # default we should show error here if no name and address 
         restaraunt_db={ 'start_time' : datetime.strptime("09:00","%H:%M"),
