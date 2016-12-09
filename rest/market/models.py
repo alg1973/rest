@@ -33,6 +33,8 @@ class Restaraunt(models.Model):
 class Diner(models.Model):
 #   id = models.IntegerField(primary_key=True)
     address = models.CharField(max_length=1024)
+    login = models.CharField(max_length=64,unique=True)
+    password =  models.CharField(max_length=128)
     def __unicode__(self):
         return u"%s" % self.address
 

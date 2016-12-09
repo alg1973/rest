@@ -1,6 +1,5 @@
-{% load static %}
-
-<link rel="stylesheet" type="text/css" href="{% static 'market/style.css' %}" />
+{% extends "market/base.html" %}
+{% block content %}
 <h1> Рестораны рядом</h1>
 <hr><br/>
 <form action="{% url 'index' %}">
@@ -31,3 +30,4 @@
     <tr><td><p>No restaraunts are available.</p></td></tr>
 {% endif %}
 </table>
+{% endblock %}
