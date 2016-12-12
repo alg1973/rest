@@ -24,12 +24,15 @@ def check(request):
             usr = Diner.objects.get(pk=request.session['market_id'])
             auth_list['user']=usr.id
             auth_list['login']=usr.login
-            auth_list['login_form']=0
+            # starting *** is session without login
+            auth_list['login_form']=0 if usr.login[:3]!="***"
         except Diner.DoesNotExist:
         #invalid id in sessions
             del request.session['market_id']
     else: #anonymous session
         usr = Diner(login="***"+id_generator(),utype=0)
         usr.save() #Babah!
+        auth_list['user']=usr.id
+        auth_list['login']=usr.login
     return auth_list
             
