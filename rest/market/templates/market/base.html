@@ -7,7 +7,7 @@
   <title>{% block title %}Рестораны{% endblock %}</title>
 </head>
 <body>
-  <div id="login_block">
+  <div id="login_block" class="login-box">
     {% block login %}
     <table>
       {% if auth_list.login_form %}
@@ -18,7 +18,7 @@
 	  <input type=submit value="OK">
 	  </td></tr></form>
       {% else %}
-      <tr><td></td><td align=right>Имя:  {{ auth_list.login }}
+      <tr><td></td><td class="login-box">Имя:  {{ auth_list.login }}
 	  </td></tr>
       {% endif %}
       </table>

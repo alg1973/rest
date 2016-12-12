@@ -35,8 +35,21 @@ class Diner(models.Model):
     address = models.CharField(max_length=1024)
     login = models.CharField(max_length=64,unique=True)
     password =  models.CharField(max_length=128)
+    utype = models.IntegerField() #0 - anonymous session, 1 - register user 
+    tel = models.CharField(max_length=15)
     def __unicode__(self):
         return u"%s" % self.address
+
+class Basket(models.Model):
+    diner =  models.ForeignKey(Diner)
+    dish = models.ManyToManyField(Dish, through='Basket_entry')
+
+class Basket_entry(models.Model):
+    diner =  models.ForeignKey(Diner)
+    dish = models.ForeignKey(Dish)
+    quantity =  models.IntegerField()
+    change_date = models.DateField()
+    
 
 class Rating(models.Model): #Do we need to store it?
     restaraunt = models.ForeignKey(Restaraunt)

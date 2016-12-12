@@ -1,6 +1,11 @@
+import string
+import random
+
 from .models import Restaraunt, Diner
 
 
+def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
 def check(request):
     auth_list={'login_form':1}
     if 'login' in request.GET and 'password' in request.GET:
@@ -23,5 +28,8 @@ def check(request):
         except Diner.DoesNotExist:
         #invalid id in sessions
             del request.session['market_id']
+    else: #anonymous session
+        usr = Diner(login="***"+id_generator(),utype=0)
+        usr.save() #Babah!
     return auth_list
             
