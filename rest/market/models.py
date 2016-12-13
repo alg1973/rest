@@ -59,7 +59,7 @@ class Rating(models.Model): #Do we need to store it?
     rating_fast = models.IntegerField(default=0)
     comment = models.CharField(max_length=1024)
 
-@python_2_unicode_compatible
+
 class Dish(models.Model):
 #   id = models.IntegerField(primary_key=True)
     restaraunt = models.ForeignKey(Restaraunt)
@@ -70,12 +70,12 @@ class Dish(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     rank = models.IntegerField() # popularity
     make_time = models.IntegerField()
-    def __str__(self):
+    def __unicode__(self):
         return u"%s" % self.name
 
 class Dish_type(models.Model):
-#   id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=256)
+    dtype = models.IntegerField()
 
 
     
