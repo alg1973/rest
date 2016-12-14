@@ -1,3 +1,5 @@
+{% extends "market/base.html" %}
+{% block content %}
 <table>
 {% if restaraunt %}
         <tr> 
@@ -34,7 +36,14 @@
 	</td>  
 	<td> Цена: </td>  
         <td> {{ dish.price}} 
-	</td>  
+	</td> 
+	<td>
+	  <form  action="{% url 'menu'  restaraunt.id %}">
+	    <input type="text" name=q size=2 value="1">
+	    <input type="hidden" name="dish_id" value="{{ dish.id}}">
+	    <button>В корзину</button>
+	  </form>
+	</td>
 	</tr>  
         <tr>
         <td><hr/>
@@ -45,3 +54,4 @@
     <tr><td><p>This restraunt don't have meal.</p></td></tr>
 {% endif %}
 </table>
+{% endblock %}

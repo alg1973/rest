@@ -12,7 +12,11 @@
     <table>
       {% if auth_list.login_form %}
       <form> 
-      <tr><td></td><td align=right>Имя: <input type="text" name=login 
+      <tr> <td>
+	  {% if auth_list.message %}
+	    {{ auth_list.message }}
+	  {% endif %}
+	</td><td class="login-box">Имя: <input type="text" name=login 
 					       size=10 value="">
 	  Пароль: <input type="password" name=password size=15 value="">
 	  <input type=submit value="OK">

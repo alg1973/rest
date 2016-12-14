@@ -4,7 +4,7 @@ from django.utils.encoding import python_2_unicode_compatible
 
 #admin password is superuser
 
-#@python_2_unicode_compatible
+
 class Restaraunt(models.Model):
 #   id = models.IntegerField(primary_key=True)
     type = models.IntegerField(default=0) #0 - unknown, pizza, italian, chinise 
@@ -29,7 +29,20 @@ class Restaraunt(models.Model):
     
     #money and law fields here
 
-#@python_2_unicode_compatible
+
+class Dish(models.Model):
+    restaraunt = models.ForeignKey(Restaraunt)
+    name = models.CharField(max_length=256)
+    description = models.CharField(max_length=1024,default='')
+    type = models.IntegerField() # Pizza,  Pizza margherita
+    weight = models.IntegerField() # Weight or something
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    rank = models.IntegerField() # popularity
+    make_time = models.IntegerField()
+    def __unicode__(self):
+        return u"%s" % self.name
+
+
 class Diner(models.Model):
 #   id = models.IntegerField(primary_key=True)
     address = models.CharField(max_length=1024)
@@ -42,11 +55,12 @@ class Diner(models.Model):
 
 class Basket(models.Model):
     diner =  models.ForeignKey(Diner)
-    dish = models.ManyToManyField(Dish, through='Basket_entry')
+    deleted = models.IntegerField(default=0)
+    dishes = models.ManyToManyField(Dish, through='BasketEntry')
 
-class Basket_entry(models.Model):
-    diner =  models.ForeignKey(Diner)
+class BasketEntry(models.Model):
     dish = models.ForeignKey(Dish)
+    basket = models.ForeignKey(Basket)
     quantity =  models.IntegerField()
     change_date = models.DateField()
     
@@ -60,18 +74,7 @@ class Rating(models.Model): #Do we need to store it?
     comment = models.CharField(max_length=1024)
 
 
-class Dish(models.Model):
-#   id = models.IntegerField(primary_key=True)
-    restaraunt = models.ForeignKey(Restaraunt)
-    name = models.CharField(max_length=256)
-    description = models.CharField(max_length=1024,default='')
-    type = models.IntegerField() # Pizza,  Pizza margherita
-    weight = models.IntegerField() # Weight or something
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    rank = models.IntegerField() # popularity
-    make_time = models.IntegerField()
-    def __unicode__(self):
-        return u"%s" % self.name
+
 
 class Dish_type(models.Model):
     name = models.CharField(max_length=256)

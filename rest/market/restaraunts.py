@@ -16,8 +16,7 @@ from .models import Restaraunt, Diner
 
 
 def show (request):
-    auth_list= auth.check(request)
-                
+    au = auth.Auth(request)                
     if 'q' in request.GET: #sql inject
         restaraunts_list = Restaraunt.objects.filter(
             dish__name__icontains=request.GET['q']).annotate(meal=Count('dish'))
@@ -28,7 +27,7 @@ def show (request):
         restaraunts_list = Restaraunt.objects.all()
     template = loader.get_template('market/restaraunts.html')
     context = {
-        'auth_list': auth_list,
+        'auth_list': au.get_list(),
         'restaraunts_list': restaraunts_list,
     }
     return HttpResponse(template.render(context, request))
