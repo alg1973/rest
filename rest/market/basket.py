@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.utils import timezone
 
 
 from .models import Dish,Restaraunt,Diner,Basket,BasketEntry
@@ -24,8 +25,12 @@ class Bsk:
         if 'dish_id' in request.GET:
             if request.GET.get('q',0)!=0:
                 self.load()
-                self.basket.dishes.create(dish=request.GET['dish_id'],
-                                          quantity=request.GET['q'])
+                meal = Dish.objects.get(pk=request.GET['dish_id'])
+                basket_ent = BasketEntry(dish=meal,basket=self.basket)
+                basket_ent.quantity=request.GET['q']
+                basket_ent.change_date=timezone.now()
+                #self.basket.dishes.add(basket_ent)
+                basket_ent.save()
                 self.basket.save()
 
 
