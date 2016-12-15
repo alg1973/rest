@@ -22,7 +22,11 @@
 	  <input type=submit value="OK">
 	  </td></tr></form>
       {% else %}
-      <tr><td></td><td class="login-box">Имя:  {{ auth_list.login }}
+      <tr><td>
+	  {% if auth_list.message %}
+	    {{ auth_list.message }}
+	  {% endif %}
+	</td><td class="login-box">Имя:  {{ auth_list.login }}
 	  </td></tr>
       {% endif %}
       </table>

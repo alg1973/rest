@@ -14,7 +14,7 @@ class Auth:
     
     def __init__(self, request):
         self.check(request)
-
+                
     def get_list(self):
         return self.auth_list
 
@@ -23,6 +23,9 @@ class Auth:
 
     def diner(self):
         return self.auth_list['diner']
+    def message(self,txt):
+        self.auth_list['message']=txt
+
 
 
     def anon_session(self,request,message=''):
