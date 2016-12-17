@@ -1,0 +1,61 @@
+{% extends "market/base.html" %}
+{% block content %}
+<table>
+{% if restaraunt %}
+        <tr> 
+        <td>Вы заказали блюда из ресторана 
+	  <a href="{% url 'menu' restaraunt.id %}">{{ restaraunt.name }}</a>
+	</td>  
+	</tr>
+        <tr> 
+        <td> {{ restaraunt.address }} 
+	</td>  
+	</tr>
+        <tr> 
+        <td><hr/>
+	</td>  
+	</tr>
+{% else %}
+    <tr><td><p>Invalid basket: No such restaraunt is available.</p></td></tr>
+{% endif %}
+</table>
+<table>
+{% if dish_list %}
+    
+    {% for d in dish_list %}
+        <tr> 
+        <td>{{ d.dish.name }}
+	</td>  
+	</tr>
+        <tr> 
+        <td> {{ d.dish.description }} 
+	</td>  
+	</tr>  
+        <tr> 
+	<td> Вес: </td>  
+        <td> {{ d.dish.weight}} 
+	</td>  
+	<td> Цена: </td>  
+        <td> {{ d.dish.price}} 
+	</td> 
+	<td> Цена: </td>  
+        <td> {{ d.dish.price}} 
+	</td> 
+	<td>
+	  <form  action="{% url 'basket' %}">
+	    <input type="text" name=q size=2 value="{{ d.quantity }}">
+	    <input type="hidden" name="dish_id" value="{{ d.dish.id }}">
+	    <button>Изменить</button>
+	  </form>
+	</td>
+	</tr>  
+        <tr>
+        <td><hr/>
+	</td>
+	</tr>
+    {% endfor %}
+{% else %}
+    <tr><td><p>Вы еще ничего не выбрали</p></td></tr>
+{% endif %}
+</table>
+{% endblock %}
