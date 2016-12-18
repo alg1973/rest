@@ -51,7 +51,7 @@ class Bsk:
            #self.dishes.get(dish=request.GET['dish_id'])
            meal = Dish.objects.get(pk=request.GET['dish_id'])
            if int(request.GET['q'])==0:               
-               self.dishes.get(dish=meal).delete()
+               #self.dishes.get(dish=meal).delete()
                BasketEntry.objects.get(dish=meal,basket=self.basket).delete()
            else:
                basket_ent = BasketEntry.objects.get(dish=meal,

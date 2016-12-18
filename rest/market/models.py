@@ -44,7 +44,6 @@ class Dish(models.Model):
 
 
 class Diner(models.Model):
-#   id = models.IntegerField(primary_key=True)
     address = models.CharField(max_length=1024)
     login = models.CharField(max_length=64,unique=True)
     password =  models.CharField(max_length=128)
@@ -63,6 +62,32 @@ class BasketEntry(models.Model):
     basket = models.ForeignKey(Basket)
     quantity =  models.IntegerField()
     change_date = models.DateField()
+
+class Order(models.Model):
+    diner = models.ForeignKey(Diner)
+    restaraunt = models.ForeignKey(Restaraunt)
+    state = models.IntegerField()
+    tel = models.CharField(max_length=15)
+    address = models.CharField(max_length=1024)
+    location_lat =   models.DecimalField(max_digits=10, decimal_places=6)
+    location_lng = models.DecimalField(max_digits=10, decimal_places=6)
+    payment_type = models.IntegerField()
+    payment_info = models.CharField(max_length=1024)
+    dinner_comment = models.CharField(max_length=1024)
+    restaraunt_comment = models.CharField(max_length=1024)
+    change_date = models.DateField()
+    dishes = models.ManyToManyField(Dish, through='OrderDishes')
+
+
+class OrderDishes(models.Model):
+    dish = models.ForeignKey(Dish)
+    order = models.ForeignKey(Order)
+    quantity =  models.IntegerField()
+    rating = models.IntegerField()
+
+
+
+
     
 
 class Rating(models.Model): #Do we need to store it?
