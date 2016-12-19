@@ -22,6 +22,11 @@ class Restaraunt(models.Model):
     minimum_order = models.DecimalField(max_digits=10, decimal_places=2)
     delivery_price = models.DecimalField(max_digits=10, decimal_places=2)
     tel = models.CharField(max_length=15)
+    open_orders =  models.IntegerField(default=0)
+    # restraunt identification staff
+    pin = models.CharField(max_length=5)
+    email = models.CharField(max_length=128,db_index=True)
+    password =  models.CharField(max_length=128)
     def __unicode__(self):
         return u"%s" % self.name
     class Meta:
@@ -49,6 +54,7 @@ class Diner(models.Model):
     password =  models.CharField(max_length=128)
     utype = models.IntegerField() #0 - anonymous session, 1 - register user 
     tel = models.CharField(max_length=15)
+    email = models.CharField(max_length=256)
     def __unicode__(self):
         return u"%s" % self.address
 
@@ -67,15 +73,16 @@ class Order(models.Model):
     diner = models.ForeignKey(Diner)
     restaraunt = models.ForeignKey(Restaraunt)
     state = models.IntegerField()
-    tel = models.CharField(max_length=15)
+    dinertel = models.CharField(max_length=15)
     address = models.CharField(max_length=1024)
     location_lat =   models.DecimalField(max_digits=10, decimal_places=6)
     location_lng = models.DecimalField(max_digits=10, decimal_places=6)
     payment_type = models.IntegerField()
     payment_info = models.CharField(max_length=1024)
-    dinner_comment = models.CharField(max_length=1024)
+    diner_comment = models.CharField(max_length=1024)
     restaraunt_comment = models.CharField(max_length=1024)
     change_date = models.DateField()
+    changelog =  models.CharField(max_length=4096)
     dishes = models.ManyToManyField(Dish, through='OrderDishes')
 
 

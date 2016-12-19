@@ -109,7 +109,7 @@ def edit_restaraunt(request,rest_id):
     #after the save() we have id.
 
     restaraunt_attr['edit_id']=restaraunt_db.id 
-    print (connection.queries,sys.stderr)
+    #print (connection.queries,sys.stderr)
     return show_result(request,restaraunt_db,restaraunt_attr)   
 	
 
