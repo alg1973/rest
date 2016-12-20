@@ -23,6 +23,7 @@ class Auth:
 
     def diner(self):
         return self.auth_list['diner']
+
     def message(self,txt):
         self.auth_list['message']=txt
 

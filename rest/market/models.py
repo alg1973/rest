@@ -23,6 +23,7 @@ class Restaraunt(models.Model):
     delivery_price = models.DecimalField(max_digits=10, decimal_places=2)
     tel = models.CharField(max_length=15)
     open_orders =  models.IntegerField(default=0)
+    tz_offset = models.IntegerField(default=0)
     # restraunt identification staff
     pin = models.CharField(max_length=5)
     email = models.CharField(max_length=128,db_index=True)
