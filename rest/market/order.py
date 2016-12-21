@@ -38,7 +38,11 @@ def check_order_validity(ord_list,restraunt):
         ord_list['valid'] = 0
         ord_list['message'] = 'Сумма меньше минимального заказа, добавьте еще'
     if restraunt.start_time<restraunt.end_time:
-        restraunt_time=datetime.utcnow()+restraunt.tz_offset
+        restaraunt_now=(datetime.datetime.utcnow()+
+                  datetime.timedelta(seconds=restraunt.tz_offset)).time()
+        if  restaraunt_now<restraunt.start_time or restaraunt_now>restraunt.end_time:
+            ord_list['valid'] = 0
+            ord_list['message'] = 'Ресторан сейчас не работает, приходите позже???'
 
 def show_order(au,request):
     bsk = basket.Bsk(au,request)
