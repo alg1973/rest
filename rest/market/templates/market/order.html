@@ -1,0 +1,64 @@
+{% extends "market/base.html" %}
+{% block content %}
+<table>
+{% if order_list.restaraunt %}
+        <tr> 
+        <td>Вы заказали блюда из ресторана 
+	  <a href="{% url 'menu' order_list.restaraunt.id %}"
+	     >{{ order_list.restaraunt.name }}</a>
+	</td>  
+	</tr>
+        <tr> 
+        <td> {{ order_list.restaraunt.address }} 
+	</td>  
+	</tr>
+        <tr> 
+        <td><hr/>
+	</td>  
+	</tr>
+{% else %}
+    <tr><td><p>Invalid basket: No such restaraunt is available.</p></td></tr>
+{% endif %}
+</table>
+<table>
+{% if order_list.dish %}
+    
+    {% for d in order_list.dish %}
+        <tr> 
+        <td>{{ d.dish.name }}
+	</td>  
+
+        <td> {{ d.dish.description }} 
+	</td>  
+
+	<td> Вес: </td>  
+        <td> {{ d.dish.weight}} 
+	</td>  
+	<td> Цена: </td>  
+        <td> {{ d.dish.price}} 
+	</td> 
+	<td> Цена: </td>  
+        <td> {{ d.dish.price}} 
+	</td> 
+
+        
+	</tr>
+    {% endfor %}
+	<tr><td><hr/></td></tr>
+	<tr><td>Стоимость доставки:</td>
+	  <td> {{order_list.dprice}} </td>
+	</tr>
+       <tr><td>Всего:</td>
+	  <td> {{order_list.total}} рублей</td>
+	</tr>
+        <tr><td><hr/></td></tr>
+	<tr><td>Адрес доставки:</td><td> {{order_list.address}}</td>
+	<tr><td>Телефон:</td><td> {{order_list.tel}}</td>
+	<tr><td>Электронная почта:</td><td> {{order_list.tel}}</td>
+	</table>
+	
+{% else %}
+    <tr><td><p>Вы еще ничего не выбрали</p></td></tr>
+{% endif %}
+</table>
+{% endblock %}

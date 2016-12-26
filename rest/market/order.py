@@ -27,10 +27,11 @@ def show (request):
     return HttpResponse(template.render(context, request))
 
 
-def calculate_total(dish_list):
+def calculate_total(dish_list,restaraunt):
     total = 0
     for meal in dish_list:
         total += meal.quantity*meal.dish.price
+    total += restaraunt.delivery_price
     return total
 
 def check_order_validity(ord_list,restraunt):
@@ -46,14 +47,13 @@ def check_order_validity(ord_list,restraunt):
 
 def show_order(au,request):
     bsk = basket.Bsk(au,request)
-    check_order_validity(
     ord_list ['dish'] = bsk.dish_list()
     ord_list ['restaraunt'] = bsk.restraunt()
     ord_list ['address'] = au.diner().address
     ord_list ['tel'] = au.diner().tel
     ord_list ['email'] = au.diner.email
     ord_list ['dprice'] = bsk.restraunt().delivery_price
-    ord_list ['total'] = calculate_total(bsk.dish_list())
+    ord_list ['total'] = calculate_total(bsk.dish_list(),bsk.restraunt())
     return  check_order_validity(ord_list,bsk.restraunt()):
         
 
