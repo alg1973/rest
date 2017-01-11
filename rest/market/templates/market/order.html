@@ -1,15 +1,15 @@
 {% extends "market/base.html" %}
 {% block content %}
 <table>
-{% if order_list.restaraunt %}
+{% if order_list.restaurant %}
         <tr> 
         <td>Вы заказали блюда из ресторана 
-	  <a href="{% url 'menu' order_list.restaraunt.id %}"
-	     >{{ order_list.restaraunt.name }}</a>
+	  <a href="{% url 'menu' order_list.restaurant.id %}"
+	     >{{ order_list.restaurant.name }}</a>
 	</td>  
 	</tr>
         <tr> 
-        <td> {{ order_list.restaraunt.address }} 
+        <td> {{ order_list.restaurant.address }} 
 	</td>  
 	</tr>
         <tr> 
@@ -17,7 +17,7 @@
 	</td>  
 	</tr>
 {% else %}
-    <tr><td><p>Invalid basket: No such restaraunt is available.</p></td></tr>
+    <tr><td><p>Invalid basket: No such restaurant is available.</p></td></tr>
 {% endif %}
 </table>
 <table>

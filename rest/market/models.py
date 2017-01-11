@@ -5,8 +5,7 @@ from django.utils.encoding import python_2_unicode_compatible
 #admin password is superuser
 
 
-class Restaraunt(models.Model):
-#   id = models.IntegerField(primary_key=True)
+class Restaurant(models.Model):
     type = models.IntegerField(default=0) #0 - unknown, pizza, italian, chinise 
     name = models.CharField(max_length=1024,db_index=True)
     location_cell = models.BigIntegerField(db_index=True) #s2 cell level 14
@@ -24,7 +23,7 @@ class Restaraunt(models.Model):
     tel = models.CharField(max_length=15)
     open_orders =  models.IntegerField(default=0)
     tz_offset = models.IntegerField(default=0)
-    # restraunt identification staff
+    # restaurant identification staff
     pin = models.CharField(max_length=5)
     email = models.CharField(max_length=128,db_index=True)
     password =  models.CharField(max_length=128)
@@ -37,7 +36,7 @@ class Restaraunt(models.Model):
 
 
 class Dish(models.Model):
-    restaraunt = models.ForeignKey(Restaraunt)
+    restaurant = models.ForeignKey(Restaurant)
     name = models.CharField(max_length=256)
     description = models.CharField(max_length=1024,default='')
     type = models.IntegerField() # Pizza,  Pizza margherita
@@ -72,7 +71,7 @@ class BasketEntry(models.Model):
 
 class Order(models.Model):
     diner = models.ForeignKey(Diner)
-    restaraunt = models.ForeignKey(Restaraunt)
+    restaurant = models.ForeignKey(Restaurant)
     state = models.IntegerField()
     dinertel = models.CharField(max_length=15)
     address = models.CharField(max_length=1024)
@@ -81,7 +80,7 @@ class Order(models.Model):
     payment_type = models.IntegerField()
     payment_info = models.CharField(max_length=1024)
     diner_comment = models.CharField(max_length=1024)
-    restaraunt_comment = models.CharField(max_length=1024)
+    restaurant_comment = models.CharField(max_length=1024)
     change_date = models.DateField()
     changelog =  models.CharField(max_length=4096)
     dishes = models.ManyToManyField(Dish, through='OrderDishes')
@@ -99,7 +98,7 @@ class OrderDishes(models.Model):
     
 
 class Rating(models.Model): #Do we need to store it?
-    restaraunt = models.ForeignKey(Restaraunt)
+    restaurant = models.ForeignKey(Restaurant)
     diner = models.ForeignKey(Diner)
     rating_quality = models.IntegerField(default=0)
     rating_service = models.IntegerField(default=0)

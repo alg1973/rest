@@ -10,15 +10,15 @@
 </form>
 <p>
 <table>
-{% if restaraunts_list %}
+{% if restaurants_list %}
     
-    {% for restaraunt in restaraunts_list %}
+    {% for restaurant in restaurants_list %}
         <tr> 
-        <td><a href="{% url 'menu' restaraunt.id %}">{{ restaraunt.name }}</a>
+        <td><a href="{% url 'menu' restaurant.id %}">{{ restaurant.name }}</a>
 	</td>  
 	</tr>
         <tr> 
-        <td> {{ restaraunt.address }} 
+        <td> {{ restaurant.address }} 
 	</td>  
 	</tr>
         <tr> 
@@ -27,7 +27,7 @@
 	</tr>
     {% endfor %}
 {% else %}
-    <tr><td><p>No restaraunts are available.</p></td></tr>
+    <tr><td><p>No restaurants are available.</p></td></tr>
 {% endif %}
 </table>
 {% endblock %}

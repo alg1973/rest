@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.utils import timezone
 
 
-from .models import Dish,Restaraunt,Diner,Basket,BasketEntry
+from .models import Dish,Restaurant,Diner,Basket,BasketEntry
 
 import auth
 import sys
@@ -19,7 +19,7 @@ def show (request):
     context = {
         'auth_list': au.get_list(),
         'dish_list': bsk.dish_list(),
-        'restaraunt': bsk.restraunt(),
+        'restaurant': bsk.restaurant(),
     }
     return HttpResponse(template.render(context, request))
 

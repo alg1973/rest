@@ -7,6 +7,6 @@ urlpatterns = [
     url(r'^(?P<rest_id>[0-9]+)/$', views.menu, name='menu'),
     url(r'^account/$', views.account, name='account'),
     url(r'^basket/$', views.basket, name='basket'),
-    url(r'^order/$', views.order, name='order'),
+    url(r'^order/$', views.checkout, name='order'),
     url(r'^account/(?P<rest_id>[0-9]+)/$', views.account, name='account'),
 ]

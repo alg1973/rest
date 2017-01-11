@@ -8,7 +8,7 @@ import geosort
 import auth
 
 
-from .models import Restaraunt, Diner
+from .models import Restaurant, Diner
 
 
 
@@ -18,20 +18,20 @@ from .models import Restaraunt, Diner
 def show (request):
     au = auth.Auth(request)                
     if 'q' in request.GET: #sql inject
-        restaraunts_list = Restaraunt.objects.filter(
+        restaurants_list = Restaurant.objects.filter(
             dish__name__icontains=request.GET['q']).annotate(meal=Count('dish'))
     elif 'g' in request.GET:
         point=address2latlng(request.GET['g'])
-        restaraunts_list = get_restaraunts_near_latlng(g['lat'],g['lng'])
+        restaurants_list = get_restaurants_near_latlng(g['lat'],g['lng'])
     else:
-        restaraunts_list = Restaraunt.objects.all()
-    template = loader.get_template('market/restaraunts.html')
+        restaurants_list = Restaurant.objects.all()
+    template = loader.get_template('market/restaurants.html')
     context = {
         'auth_list': au.get_list(),
-        'restaraunts_list': restaraunts_list,
+        'restaurants_list': restaurants_list,
     }
     return HttpResponse(template.render(context, request))
 
-def get_restaraunts_near_latlng(lat,lng):
+def get_restaurants_near_latlng(lat,lng):
     cell_list =  get_cells_of_region(lat,lng)
-    return Restaraunt.objects.filter(location_cell__in=cell_list)
+    return Restaurant.objects.filter(location_cell__in=cell_list)

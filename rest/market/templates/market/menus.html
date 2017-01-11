@@ -1,13 +1,13 @@
 {% extends "market/base.html" %}
 {% block content %}
 <table>
-{% if restaraunt %}
+{% if restaurant %}
         <tr> 
-        <td><a href="{% url 'menu' restaraunt.id %}">{{ restaraunt.name }}</a>
+        <td><a href="{% url 'menu' restaurant.id %}">{{ restaurant.name }}</a>
 	</td>  
 	</tr>
         <tr> 
-        <td> {{ restaraunt.address }} 
+        <td> {{ restaurant.address }} 
 	</td>  
 	</tr>
         <tr> 
@@ -15,7 +15,7 @@
 	</td>  
 	</tr>
 {% else %}
-    <tr><td><p>No such restaraunt is available.</p></td></tr>
+    <tr><td><p>No such restaurant is available.</p></td></tr>
 {% endif %}
 </table>
 <table>
@@ -38,7 +38,7 @@
         <td> {{ dish.price}} 
 	</td> 
 	<td>
-	  <form  action="{% url 'menu'  restaraunt.id %}">
+	  <form  action="{% url 'menu'  restaurant.id %}">
 	    <input type="text" name=q size=2 value="1">
 	    <input type="hidden" name="dish_id" value="{{ dish.id}}">
 	    <button>В корзину</button>

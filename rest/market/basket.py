@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.utils import timezone
 
 
-from .models import Dish,Restaraunt,Diner,Basket,BasketEntry
+from .models import Dish,Restaurant,Diner,Basket,BasketEntry
 
 import auth
 import sys
@@ -26,9 +26,9 @@ class Bsk:
             self.basket = Basket.objects.get(diner=self.auth.diner())
             self.dishes = self.basket.dishes.all()
             if len(self.dishes)>0:
-                self.restaraunt_id = self.dishes[0].restaraunt.id
+                self.restaurant_id = self.dishes[0].restaurant.id
             else:
-                self.restaraunt_id = 0
+                self.restaurant_id = 0
         except Basket.DoesNotExist:
             self.basket = Basket(diner=self.auth.diner())
             self.basket.save()
@@ -39,9 +39,9 @@ class Bsk:
             self.basket_list =  BasketEntry.objects.filter(basket=self.basket)
         return self.basket_list
 
-    def restraunt(self):
+    def restaurant(self):
         if len(self.dishes)>0:
-            return self.dishes[0].restaraunt
+            return self.dishes[0].restaurant
         else:
             return None
    
@@ -65,7 +65,7 @@ class Bsk:
             if request.GET.get('q',0)!=0:
                 self.load()
                 meal = Dish.objects.get(pk=request.GET['dish_id'])
-                if self.empty() or (self.restaraunt_id == meal.restaraunt.id):
+                if self.empty() or (self.restaurant_id == meal.restaurant.id):
                     try:
                         basket_ent = BasketEntry.objects.get(dish=meal,basket=self.basket)
                         basket_ent.quantity+=int(request.GET['q'])
@@ -78,7 +78,7 @@ class Bsk:
                    
                         
             else:
-                    self.auth.message("Cant add meal to basket from other restaraunt")
+                    self.auth.message("Cant add meal to basket from other restaurant")
 
 
 

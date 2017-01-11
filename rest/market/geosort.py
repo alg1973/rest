@@ -2,7 +2,7 @@ import sys
 import s2
 import geocoder
 
-#from .models import Restaraunt
+#from .models import Restaurant
 
 
 
